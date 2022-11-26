@@ -172,3 +172,5 @@ cython_debug/
 
 # don't want to push db to github 
 data
+
+./frontend/frontend/.vscode
