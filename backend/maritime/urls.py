@@ -20,9 +20,10 @@ from api import views
 
 
 router = routers.DefaultRouter()
-router.register(r'vessels', views.VesselView, 'vessels')
+# router.register(r'vessels', views.VesselView, 'vessels')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    # path('api/', include(router.urls)),
+     path('api/vessels/', views.VesselView.as_view(), name='vessels'),
 ]
