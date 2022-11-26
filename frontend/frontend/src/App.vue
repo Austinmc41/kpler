@@ -35,6 +35,19 @@ const text = ref();
     </span>
     <Button label="Add Vessel" @click="create"></Button>
   </div>
+  <div class="card">
+            <h3>Vessel Positions</h3>
+            <DataTable :value="products" responsiveLayout="scroll">
+                <Column field="Vessel ID" header="Vessel ID" :sortable="true"></Column>
+                <Column field="time" header="Time Received" :sortable="true"></Column>
+                <Column field="latitude" header="Latitude" :sortable="true"></Column>
+                <Column field="longitude" header="Longitude" :sortable="true">
+                    <template #body="slotProps">
+                        {{formatCurrency(slotProps.data.price)}}
+                    </template>
+                </Column>
+            </DataTable>
+        </div>
 </template>
 
 <style scoped>
