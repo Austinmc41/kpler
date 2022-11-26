@@ -14,6 +14,7 @@ class VesselSerializer(serializers.ModelSerializer):
 
         if data['latitude'] < -90 or data['latitude'] > 90:
             raise serializers.ValidationError(str(data['latitude']) + " is not a valid latitude because it is not between -90.00000 and 90.00000.")
+            
         if data['longitude'] < -180 or data['longitude'] > 180:
             raise serializers.ValidationError(str(data['longitude']) + " is not a valid longitude because it is not between -180.00000 and 180.00000.")
 
