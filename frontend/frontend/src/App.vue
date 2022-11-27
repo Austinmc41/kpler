@@ -1,18 +1,24 @@
 
 <script>
 import axios from 'axios'
-import {ref} from 'vue';
-
+import {ref, onMounted} from 'vue';
+import VesselService from './service/VesselService'
 const text = ref();
 
-// export default {
-//   mounted() {
-//     axios.get('http://0.0.0.0:8000/api/vessels/').
-//     then((response) => {
-//       console.log(response.data.payload)
-//     })
-//   }
-// }
+
+export default {
+    setup() {
+        onMounted(() => {
+            vesselService.value.getVessels().then(data => vessels.value = data.data.payload);
+        })
+
+        const vessels = ref();
+        const vesselService = ref(new VesselService());
+        
+
+        return {vessels}
+    }
+}
 </script>
 
 <template>
@@ -37,15 +43,11 @@ const text = ref();
   </div>
   <div class="card">
             <h3>Vessel Positions</h3>
-            <DataTable :value="products" responsiveLayout="scroll">
-                <Column field="Vessel ID" header="Vessel ID" :sortable="true"></Column>
-                <Column field="time" header="Time Received" :sortable="true"></Column>
+            <DataTable :value="vessels" responsiveLayout="scroll">
+                <Column field="vessel_id" header="Vessel ID" :sortable="true"></Column>
+                <Column field="received_time" header="Time Received" :sortable="true"></Column>
                 <Column field="latitude" header="Latitude" :sortable="true"></Column>
-                <Column field="longitude" header="Longitude" :sortable="true">
-                    <template #body="slotProps">
-                        {{formatCurrency(slotProps.data.price)}}
-                    </template>
-                </Column>
+                <Column field="longitude" header="Longitude" :sortable="true"></Column>
             </DataTable>
         </div>
 </template>
