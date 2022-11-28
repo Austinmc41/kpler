@@ -22,13 +22,33 @@ class VesselView(APIView):
     # handle create vessel position 
     # @todo: in the future handle things bulk csv import and JSON list inputs
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
+        is_many = isinstance(request.data, list)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'status' : 200, 'payload': serializer.data})
+        # handles request with list of json objects else takes individual string
+        if is_many:
+            response = []
+            for vessel in self.request.data:
+                serializer = self.serializer_class(data=vessel)
+
+                if serializer.is_valid():
+                    serializer.save()
+                    # return Response({'status' : 200, 'payload': serializer.data})
+                    response.append({'status' : 200, 'payload': serializer.data})
+                else:
+                    # return Response({'status' : 400, 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+                    response.append({'status' : 400, 'errors': serializer.errors})
         else:
-            return Response({'status' : 400, 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            serializer = self.serializer_class(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'status' : 200, 'payload': serializer.data})
+                # response.append({'status' : 200, 'payload': serializer.data})
+            else:
+                return Response({'status' : 400, 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+                # response.append({'status' : 400, 'errors': serializer.errors})
+
+        
+        return Response(response, status=status.HTTP_201_CREATED)
            
 
     
