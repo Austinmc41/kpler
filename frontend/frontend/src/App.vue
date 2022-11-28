@@ -12,11 +12,16 @@ export default {
             vesselService.value.getVessels().then(data => vessels.value = data.data.payload);
         })
         
-        const vessel = ref({});
+        
+        // variables for handling dialog actions
         const submitted = ref(false);
         const vesselDialog = ref(false);
+
         const vessels = ref();
         const vesselService = ref(new VesselService());
+
+        // vessel variables and default values for creation
+        const vessel = ref({});
         const ident = ref();
         ident.value = 0 
         const def_lat = ref();
@@ -24,13 +29,65 @@ export default {
         def_lat.value = 0.000000
         def_long.value = 0.000000
 
-         const openNew = () => {
+        // status for create request
+        const stat = ref();
+
+
+        // opens dialog
+        const openNew = () => {
             vessel.value = {};
             submitted.value = false;
             vesselDialog.value = true;
         };
+        // When cancel, done creating, or error
+        const hideDialog = () => {
+            vesselDialog.value = false;
+            submitted.value = false;
+            ident.value = 0
+            def_lat.value = 0.000000
+            def_long.value = 0.000000
+        };
+        //create new vessel position 
+        const saveVessel = () => {
+            let obj = new Object();
+            let date_time = document.getElementById('date_time').value;
+            obj.vessel_id = ident.value
+            obj.received_time_utc = date_time
+            obj.latitude = def_lat.value
+            obj.longitude = def_long.value
 
-        return {vessels, vessel, vesselDialog, submitted, openNew, def_lat, def_long, ident}
+            // serialize
+            let json_vessel = JSON.stringify(obj)
+
+
+            // attempt creation of new vessel position if successful toaster success else toaster failure with error
+            vesselService.value.postVessel(json_vessel).then((response) => {
+              stat.value = response.data.status
+              console.log(stat.value)
+              if (stat.value == 200){
+                submitted.value = true;
+                vesselDialog.value = false;
+                ident.value = 0
+                def_lat.value = 0.000000
+                def_long.value = 0.000000
+                console.log("success")
+                vesselService.value.getVessels().then(data => vessels.value = data.data.payload);
+              }
+              else {
+                console.log("failed")
+              }  
+            })
+            .catch((error)=> {
+              console.log(error.response.data.errors)
+            })
+
+                                  
+          
+        };
+       
+
+
+        return {vessels, vessel, vesselDialog, submitted, openNew, def_lat, def_long, ident, hideDialog, saveVessel}
     },
 
 }

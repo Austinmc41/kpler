@@ -7,8 +7,8 @@ export default class VesselService {
 		return http.get("/vessels/");
     }
 
-	postVessel() {
-		return http.post("/vessels/");
+	postVessel(vessel) {
+		return http.post("/vessels/", vessel);
     }
 
 }
