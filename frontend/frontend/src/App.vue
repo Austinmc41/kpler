@@ -12,8 +12,10 @@ export default {
     setup() {
         onMounted(() => {
             vesselService.value.getVessels().then(data => vessels.value = data.data.payload);
-            
+
         })
+
+   
         
         const text = ref();
         const severity = ref();
@@ -143,7 +145,7 @@ export default {
   <div class="container">
       <div class="card">
             <h3>Vessel Positions</h3>
-            <DataTable :value="vessels" responsiveLayout="scroll">
+            <DataTable :value="vessels" responsiveLayout="scroll" :paginator="true" :rows="10">
                 <Column field="vessel_id" header="Vessel ID" :sortable="true"></Column>
                 <Column field="received_time_utc" header="Time Received" :sortable="true"></Column>
                 <Column field="latitude" header="Latitude" :sortable="true"></Column>
@@ -202,6 +204,9 @@ export default {
 display:flex;
 flex-direction: column;
 }
+
+
+
 </style>
 
 
