@@ -129,7 +129,7 @@ export default {
     <div class="tools">
             <Toolbar class="mb-4">
                 <template #start>
-                    <Button label="New" icon="pi pi-plus" class="p-button-success mr-2" @click="openNew" />
+                    <Button label="New Vessel" icon="pi pi-plus" class="p-button-success mr-2" @click="openNew" />
                     <Button label="Delete" icon="pi pi-trash" class="p-button-danger" @click="confirmDeleteSelected" :disabled="!selectedProducts || !selectedProducts.length" />
                 </template>
 
