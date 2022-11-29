@@ -1,17 +1,27 @@
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
 import {ref, onMounted} from 'vue';
-import VesselService from './service/VesselService'
-const text = ref();
+import { useToast } from "primevue/usetoast";
+import VesselService from './service/VesselService';
+
+
 
 
 export default {
     setup() {
         onMounted(() => {
             vesselService.value.getVessels().then(data => vessels.value = data.data.payload);
+            
         })
         
+        const text = ref();
+        const severity = ref();
+        const summary = ref(); 
+        const toast = useToast();
+        const notif = () => {
+          toast.add({severity:severity.value, summary:summary.value, detail:text.value });
+        }
         
         // variables for handling dialog actions
         const submitted = ref(false);
@@ -26,8 +36,8 @@ export default {
         ident.value = 0 
         const def_lat = ref();
         const def_long = ref();
-        def_lat.value = 0.000000
-        def_long.value = 0.000000
+        def_lat.value = 0.000000;
+        def_long.value = 0.000000;
 
         // status for create request
         const stat = ref();
@@ -35,6 +45,9 @@ export default {
 
         // opens dialog
         const openNew = () => {
+            ident.value = 0;
+            def_lat.value = 0.000000;
+            def_long.value = 0.000000;
             vessel.value = {};
             submitted.value = false;
             vesselDialog.value = true;
@@ -43,42 +56,59 @@ export default {
         const hideDialog = () => {
             vesselDialog.value = false;
             submitted.value = false;
-            ident.value = 0
-            def_lat.value = 0.000000
-            def_long.value = 0.000000
+            ident.value = 0;
+            def_lat.value = 0.000000;
+            def_long.value = 0.000000;
         };
         //create new vessel position 
         const saveVessel = () => {
             let obj = new Object();
             let date_time = document.getElementById('date_time').value;
-            obj.vessel_id = ident.value
-            obj.received_time_utc = date_time
-            obj.latitude = def_lat.value
-            obj.longitude = def_long.value
+            obj.vessel_id = ident.value;
+            obj.received_time_utc = date_time;
+            obj.latitude = def_lat.value;
+            obj.longitude = def_long.value;
 
             // serialize
-            let json_vessel = JSON.stringify(obj)
+            let json_vessel = JSON.stringify(obj);
 
 
-            // attempt creation of new vessel position if successful toaster success else toaster failure with error
+            // attempt creation of new vessel position if successful toaster success else toaster failre with error
             vesselService.value.postVessel(json_vessel).then((response) => {
-              stat.value = response.data.status
-              console.log(stat.value)
+              stat.value = response.data.status;
               if (stat.value == 200){
+                severity.value = "success"
+                summary.value = "Success"
+                text.value = "Vessel added"
+                notif();
                 submitted.value = true;
                 vesselDialog.value = false;
-                ident.value = 0
-                def_lat.value = 0.000000
-                def_long.value = 0.000000
-                console.log("success")
+                ident.value = 0;
+                def_lat.value = 0.000000;
+                def_long.value = 0.000000;
+                console.log("success");
                 vesselService.value.getVessels().then(data => vessels.value = data.data.payload);
               }
               else {
-                console.log("failed")
+                console.log("failed");
               }  
             })
             .catch((error)=> {
-              console.log(error.response.data.errors)
+ 
+              severity.value = "error"
+              summary.value = "User Error"
+
+              if (typeof error.response.data.errors.geo_coordinate !== "undefined") {
+                text.value = error.response.data.errors.geo_coordinate[0]
+                notif();
+                console.log(error.response.data.errors.geo_coordinate);
+              }
+              
+              if (typeof error.response.data.errors.received_time_utc !== "undefined"){
+                text.value = error.response.data.errors.received_time_utc[0]
+                notif();
+                console.log(error.response.data.errors.received_time_utc );
+              }
             })
 
                                   
@@ -94,6 +124,7 @@ export default {
 </script>
 
 <template>
+  <Toast></Toast>
   <div class="container">
     <div class="tools">
             <Toolbar class="mb-4">

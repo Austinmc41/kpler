@@ -15,6 +15,7 @@ import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
 import InputNumber from 'primevue/inputnumber';
 
+
 import 'primevue/resources/themes/lara-light-indigo/theme.css'
 import 'primevue/resources/primevue.min.css' 
 import 'primeicons/primeicons.css'
@@ -33,5 +34,6 @@ app.component('FileUpload', FileUpload);
 app.component('InputNumber', InputNumber);
 app.component('Row', Row);
 app.component('Toolbar', Toolbar);
+app.use(ToastService);
 app.use(createPinia());
 app.mount('#app');

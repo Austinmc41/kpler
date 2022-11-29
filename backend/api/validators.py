@@ -17,9 +17,9 @@ def vessel_validator(data):
     try:
         is_ocean = globe.is_ocean(data['latitude'], data['longitude'])
         if not is_ocean:
-            errors['geo-coordinate'] = f"({data['latitude']}, {data['longitude']}) is a land coordinate. Please enter a maritime coordinate. Code: 5002"
+            errors['geo_coordinate'] = f"({data['latitude']}, {data['longitude']}) is a land coordinate. Please enter a maritime coordinate. Code: 5002"
     except Exception as e:
-        errors['geo-coordinate'] = 'Cannot validate if maritime coordinate because coordinate is invalid: check latitude and longitude.'
+        errors['geo_coordinate'] = 'Cannot validate if maritime coordinate because coordinate is invalid: check latitude and longitude.'
 
 
 
