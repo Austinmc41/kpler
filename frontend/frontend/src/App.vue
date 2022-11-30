@@ -11,12 +11,18 @@ import VesselService from './service/VesselService';
 export default {
     setup() {
         onMounted(() => {
-            vesselService.value.getVessels().then(data => vessels.value = data.data.payload);
+              const isLoading = ref(true);
+              vesselService.value.getVessels().then((data) => {
+              vessels.value = data.data.payload
+              isLoading.value = false
+              console.log(isLoading.value)
+            
+            }) 
 
         })
 
    
-        
+        // toast notification variables
         const text = ref();
         const severity = ref();
         const summary = ref(); 
