@@ -5,20 +5,28 @@ import {ref, onMounted} from 'vue';
 import { useToast } from "primevue/usetoast";
 import VesselService from './service/VesselService';
 
+// setting up skeleton functionality
+const vessel_dummy = new Array(10)
+const vessels = ref();
+const vesselService = ref(new VesselService());
+const isLoading = ref(true);
+const loaded = ref(false);
+// loading user data 
+const loadUserData = async() => {
+          return vesselService.value.getVessels().then((data) => {
+              vessels.value = data.data.payload
+              isLoading.value = false
+              loaded.value = true
+            }) 
+
+}
 
 
 
 export default {
     setup() {
         onMounted(() => {
-              const isLoading = ref(true);
-              vesselService.value.getVessels().then((data) => {
-              vessels.value = data.data.payload
-              isLoading.value = false
-              console.log(isLoading.value)
-            
-            }) 
-
+              loadUserData();
         })
 
    
@@ -35,8 +43,7 @@ export default {
         const submitted = ref(false);
         const vesselDialog = ref(false);
 
-        const vessels = ref();
-        const vesselService = ref(new VesselService());
+        
 
         // vessel variables and default values for creation
         const vessel = ref({});
@@ -125,7 +132,7 @@ export default {
        
 
 
-        return {vessels, vessel, vesselDialog, submitted, openNew, def_lat, def_long, ident, hideDialog, saveVessel}
+        return {vessels, vessel, vesselDialog, submitted, openNew, def_lat, def_long, ident, hideDialog, saveVessel, loaded, isLoading, vessel_dummy}
     },
 
 }
@@ -146,18 +153,18 @@ export default {
                     <Button label="Export" icon="pi pi-upload" class="p-button-help" @click="exportCSV($event)"  />
                 </template>
             </Toolbar>
+    </div>
   </div>
-  </div>
-  <div class="container">
-      <div class="card">
-            <h3>Vessel Positions</h3>
-            <DataTable :value="vessels" responsiveLayout="scroll" :paginator="true" :rows="10">
+  <div v-if="loaded" class="container">
+      <div v-if="loaded" class="card">
+            <h3 v-if="loaded">Vessel Positions</h3>
+            <DataTable  v-if="loaded" :value="vessels" responsiveLayout="scroll" :paginator="true" :rows="10">
                 <Column field="vessel_id" header="Vessel ID" :sortable="true"></Column>
                 <Column field="received_time_utc" header="Time Received" :sortable="true"></Column>
                 <Column field="latitude" header="Latitude" :sortable="true"></Column>
                 <Column field="longitude" header="Longitude" :sortable="true"></Column>
             </DataTable>
-        </div>
+      </div>
 
     <Dialog v-model:visible="vesselDialog" :style="{width: '450px'}" header="Vessel Details" :modal="true" class="p-fluid">
             <div class="formgrid grid">
@@ -184,6 +191,33 @@ export default {
             </template>
         </Dialog>
   </div>
+  <div v-if="isLoading" class="container">
+    <div  v-if="isLoading" class="card">
+    <h3 v-if="isLoading">Vessel Positions</h3>
+      <DataTable  v-if="isLoading" :value="vessel_dummy" responsiveLayout="scroll" :paginator="true" :rows="10">
+                <Column field="vessel_id" :sortable="true"  header="Vessel ID">
+                    <template #body>
+                        <Skeleton></Skeleton>
+                    </template>
+                </Column>
+                <Column field="received_time_utc" :sortable="true" header="Time Received">
+                    <template #body>
+                        <Skeleton></Skeleton>
+                    </template>
+                </Column>
+                <Column field="latitude" :sortable="true" header="Latitude">
+                    <template #body>
+                        <Skeleton></Skeleton>
+                    </template>
+                </Column>
+                <Column field="longitude" :sortable="true" header="Longitude">
+                    <template #body>
+                        <Skeleton></Skeleton>
+                    </template>
+                </Column>
+        </DataTable>
+    </div>
+    </div>
 </template>
 
 <style scoped>

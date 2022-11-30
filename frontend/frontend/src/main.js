@@ -14,6 +14,7 @@ import Toolbar from 'primevue/toolbar';
 import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
 import InputNumber from 'primevue/inputnumber';
+import Skeleton from 'primevue/skeleton';
 
 
 
@@ -26,6 +27,7 @@ const app = createApp(App);
 app.use(PrimeVue);
 app.component('Button', Button);
 app.component('InputText', InputText);
+app.component('Skeleton',Skeleton)
 app.component('Toast', Toast);
 app.component('DataTable', DataTable);
 app.component('Dialog', Dialog);
