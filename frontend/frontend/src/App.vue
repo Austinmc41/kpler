@@ -189,8 +189,8 @@ export default {
       </div>
 
     <Dialog v-model:visible="vesselDialog" :style="{width: '450px'}" header="Vessel Details" :modal="true" class="p-fluid">
-            <div class="formgrid grid">
-            <div class="field col">
+           <div class="formgrid grid">
+                <div class="field col">
                     <label>Vessel ID</label>
                     <InputNumber v-model="ident" id="vessel_ident"/>
                 </div>
@@ -211,7 +211,7 @@ export default {
                 <Button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog"/>
                 <Button label="Save" icon="pi pi-check" class="p-button-text" @click="saveVessel" />
             </template>
-        </Dialog>
+      </Dialog>
   </div>
   <div v-if="isLoading" class="container">
     <div  v-if="isLoading" class="card">
@@ -239,7 +239,7 @@ export default {
                 </Column>
         </DataTable>
     </div>
-    </div>
+  </div>
 </template>
 
 <style scoped>
