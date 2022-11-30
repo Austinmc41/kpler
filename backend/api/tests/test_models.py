@@ -6,7 +6,7 @@ import dateutil
 from dateutil.parser import parse
 
 class VesselTest(TestCase):
-    """ Test module for Puppy model """
+
 
     def setUp(self):
         Vessel.objects.create(
