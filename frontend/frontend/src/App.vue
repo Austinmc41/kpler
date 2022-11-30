@@ -1,9 +1,9 @@
-
 <script>
 import axios from 'axios';
 import {ref, onMounted} from 'vue';
 import { useToast } from "primevue/usetoast";
 import VesselService from './service/VesselService';
+
 
 // setting up skeleton functionality
 const vessel_dummy = new Array(10)
@@ -21,16 +21,13 @@ const loadUserData = async() => {
 
 }
 
-
-
 export default {
     setup() {
         onMounted(() => {
               loadUserData();
         })
 
-
-    const date_builder = function (s) {
+        const date_builder = function (s) {
 
         // getting all of the date things :)
         const date = new Date(s)
@@ -44,18 +41,17 @@ export default {
         })
 
     // building date string from date things and returning date string
-    const date_string = `${month} ${day}, ${year}, ${str_time}`
-    return date_string
-   }
+        const date_string = `${month} ${day}, ${year}, ${str_time}`
+        return date_string
+    }
 
-   
         // toast notification variables
         const text = ref();
         const severity = ref();
         const summary = ref(); 
         const toast = useToast();
         const notif = () => {
-          toast.add({severity:severity.value, summary:summary.value, detail:text.value });
+        toast.add({severity:severity.value, summary:summary.value, detail:text.value });
         }
         
         // variables for handling dialog actions
@@ -104,11 +100,11 @@ export default {
             obj.longitude = def_long.value;
 
             // serialize
-            let json_vessel = JSON.stringify(obj);
+          let json_vessel = JSON.stringify(obj);
 
 
             // attempt creation of new vessel position if successful toaster success else toaster failre with error
-            vesselService.value.postVessel(json_vessel).then((response) => {
+          vesselService.value.postVessel(json_vessel).then((response) => {
               stat.value = response.data.status;
               if (stat.value == 200){
                 severity.value = "success"
@@ -127,7 +123,7 @@ export default {
                 console.log("failed");
               }  
             })
-            .catch((error)=> {
+          .catch((error)=> {
  
               severity.value = "error"
               summary.value = "User Error"
