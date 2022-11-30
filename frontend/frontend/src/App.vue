@@ -29,6 +29,25 @@ export default {
               loadUserData();
         })
 
+
+    const date_builder = function (s) {
+
+        // getting all of the date things :)
+        const date = new Date(s)
+        const month = date.toLocaleString('default', { month: 'long' });
+        const day = date.getDate()
+        const year = date.getFullYear()
+        const str_time = date.toLocaleString('en-US', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        })
+
+    // building date string from date things and returning date string
+    const date_string = `${month} ${day}, ${year}, ${str_time}`
+    return date_string
+   }
+
    
         // toast notification variables
         const text = ref();
@@ -132,7 +151,7 @@ export default {
        
 
 
-        return {vessels, vessel, vesselDialog, submitted, openNew, def_lat, def_long, ident, hideDialog, saveVessel, loaded, isLoading, vessel_dummy}
+        return {vessels, vessel, vesselDialog, submitted, openNew, def_lat, def_long, ident, hideDialog, saveVessel, loaded, isLoading, vessel_dummy, date_builder}
     },
 
 }
@@ -145,7 +164,6 @@ export default {
             <Toolbar class="mb-4">
                 <template #start>
                     <Button label="New Vessel" icon="pi pi-plus" class="p-button-success mr-2" @click="openNew" />
-                    <Button label="Delete" icon="pi pi-trash" class="p-button-danger" @click="confirmDeleteSelected" :disabled="!selectedProducts || !selectedProducts.length" />
                 </template>
 
                 <template #end>
@@ -160,7 +178,11 @@ export default {
             <h3 v-if="loaded">Vessel Positions</h3>
             <DataTable  v-if="loaded" :value="vessels" responsiveLayout="scroll" :paginator="true" :rows="10">
                 <Column field="vessel_id" header="Vessel ID" :sortable="true"></Column>
-                <Column field="received_time_utc" header="Time Received" :sortable="true"></Column>
+                <Column field="received_time_utc" header="Time Received" :sortable="true">
+                <template #body="slotProps">
+                        {{date_builder(slotProps.data.received_time_utc)}}
+                </template>
+                </Column>
                 <Column field="latitude" header="Latitude" :sortable="true"></Column>
                 <Column field="longitude" header="Longitude" :sortable="true"></Column>
             </DataTable>
