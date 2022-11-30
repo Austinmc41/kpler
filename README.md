@@ -36,3 +36,10 @@ Frontend steps
 2. run `docker compose build`
 
 3. run `docker compose up`
+
+4. open 'http://localhost:8080/'
+
+
+Note about Docker: If you don't Docker install the latest version from 'https://www.docker.com/get-started/'
+Please use `docker compose` instead of `docker-compose`, the latter may work but I have done testing with the former. 
+https://docs.docker.com/compose/#compose-v2-and-the-new-docker-compose-command -> more about compose
