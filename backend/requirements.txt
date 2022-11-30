@@ -4,3 +4,4 @@ djangorestframework==3.14.0
 django-cors-headers==3.13.0
 global-land-mask==1.0.0
 numpy==1.23.5
+python-dateutil==2.8.2
