@@ -19,8 +19,7 @@ class VesselView(APIView):
         serializer = VesselSerializer(vessel_objects, many=True)
         return Response({'status' : 200, 'payload': serializer.data})
 
-    # handle create vessel position 
-    # @todo: in the future handle things bulk csv import and JSON list inputs
+    # handle create Vessel position(s)
     def post(self, request, *args, **kwargs):
         is_many = isinstance(request.data, list)
 
@@ -32,9 +31,10 @@ class VesselView(APIView):
 
                 if serializer.is_valid():
                     serializer.save()
-                    response.append({'status' : 201, 'payload': serializer.data}, status=status.HTTP_201_CREATED)
+                    response.append({'status' : 201, 'payload': serializer.data})
                 else:
-                    response.append({'status' : 400, 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+                    response.append({'status' : 400, 'errors': serializer.errors})
+            return Response(response, status=status.HTTP_201_CREATED)
         else:
             serializer = self.serializer_class(data=request.data)
             if serializer.is_valid():
@@ -44,7 +44,7 @@ class VesselView(APIView):
                 return Response({'status' : 400, 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
         
-        return Response(response, status=status.HTTP_201_CREATED)
+        
            
 
     

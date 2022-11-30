@@ -14,7 +14,7 @@ client = Client()
 
 class GetAllVessels(TestCase):
     """ Test module for GET all Vessels API """
-
+    # creating vessels 
     def setUp(self):
         Vessel.objects.create(
             vessel_id=10,
@@ -36,7 +36,7 @@ class GetAllVessels(TestCase):
             received_time_utc= datetime(2019, 3, 4, 14, 57, 11, tzinfo=dateutil.tz.tz.tzutc()),
             latitude= -9,
             longitude= -19)
-
+    # getting all vessels
     def test_get_all_vessels(self):
        # get API response
         response = client.get(reverse('vessels'))
@@ -48,7 +48,7 @@ class GetAllVessels(TestCase):
 
 class CreateVesselTest(TestCase):
     """ Test module for inserting a new puppy """
-
+    
     def setUp(self):
         self.valid_payload = {
             'vessel_id': 11,

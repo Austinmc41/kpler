@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Vessel
 from .validators import vessel_validator
 
-
+# serializer for data serialization and validation
 class VesselSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vessel
