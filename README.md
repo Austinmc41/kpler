@@ -6,7 +6,7 @@ Backend steps
  
 2. run `docker compose build`
 
-3. run `sudo docker compose run web python manage.py migrate` 
+3. run `sudo docker compose run web python manage.py migrate` (on first try may need to run again if gives port error)
 
 4. run `docker compose up` (can take a second to get going, may need to ctrl + c for the first time 
 and rerun command)
