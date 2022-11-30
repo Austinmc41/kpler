@@ -12,6 +12,14 @@ Backend steps
 and rerun command)
 
 
+Run Script:
+
+cd into csv_script
+
+1. `python post_vessels.py`
+2. wait
+3. see file.txt for output (can use prettfier tool to increase readabiity and ease of finding errors w/ cmd + f) 
+
 Unit tests
 
 There is basic test coverage for getting and posting vessels
