@@ -142,7 +142,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# MAY NEED TO CHANGE FOR DOCKERIZING 
+# MAY NEED TO CHANGE FOR DOCKERIZING
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:8080',
      'http://localhost:5173',
