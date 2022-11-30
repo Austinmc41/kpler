@@ -32,20 +32,16 @@ class VesselView(APIView):
 
                 if serializer.is_valid():
                     serializer.save()
-                    # return Response({'status' : 200, 'payload': serializer.data})
-                    response.append({'status' : 200, 'payload': serializer.data})
+                    response.append({'status' : 201, 'payload': serializer.data}, status=status.HTTP_201_CREATED)
                 else:
-                    # return Response({'status' : 400, 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-                    response.append({'status' : 400, 'errors': serializer.errors})
+                    response.append({'status' : 400, 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         else:
             serializer = self.serializer_class(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                return Response({'status' : 200, 'payload': serializer.data})
-                # response.append({'status' : 200, 'payload': serializer.data})
+                return Response({'status' : 201, 'payload': serializer.data}, status=status.HTTP_201_CREATED)
             else:
                 return Response({'status' : 400, 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-                # response.append({'status' : 400, 'errors': serializer.errors})
 
         
         return Response(response, status=status.HTTP_201_CREATED)
