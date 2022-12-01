@@ -12,7 +12,7 @@ Backend steps
 and rerun command)
 
 
-Run Script:
+Run Script
 
 cd into csv_script
 
