@@ -23,9 +23,9 @@ Run Script
 Unit tests
 
 There is basic test coverage for getting and posting vessels
-These tests can be viewed in tests/test_views.py & and tests/test_models.py
+These tests can be viewed in `tests/test_views.py` & and `tests/test_models.py`
 
-command to run tests: `sudo docker compose run web python manage.py test` 
+command to run tests from backend dir: `sudo docker compose run web python manage.py test` 
 
 
 
