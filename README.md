@@ -37,7 +37,7 @@ Frontend steps
 
 3. run `docker compose up`
 
-4. open 'http://localhost:8080/'
+4. open `http://localhost:8080/`
 
 
 Note about Docker: If you don't Docker install the latest version from 'https://www.docker.com/get-started/'
