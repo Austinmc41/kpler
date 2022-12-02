@@ -91,7 +91,7 @@ export default {
             def_long.value = 0.000000;
         };
         //create new vessel position 
-        const saveVessel = () => {
+          const saveVessel = () => {
           let obj = new Object();
           let date_time = document.getElementById('date_time').value;
           obj.vessel_id = ident.value;
@@ -99,7 +99,13 @@ export default {
           obj.latitude = def_lat.value;
           obj.longitude = def_long.value;
           
-          console.log(obj.vessel_id)
+          // check for null values
+          if (obj.vessel_id == null || obj.latitude == null || obj.longitude == null ) {
+              severity.value = "error"
+              summary.value = "User Error"
+              text.value = "Make sure to complete all fields before attempting to save"
+              notif();
+          } else {
 
             // serialize
           let json_vessel = JSON.stringify(obj);
@@ -121,9 +127,6 @@ export default {
                 console.log("success");
                 vesselService.value.getVessels().then(data => vessels.value = data.data.payload);
               }
-              else {
-                console.log("failed");
-              }  
             })
           .catch((error)=> {
  
@@ -143,7 +146,7 @@ export default {
               }
             })
 
-                                  
+          }                       
           
         };
        
