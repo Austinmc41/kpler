@@ -92,12 +92,14 @@ export default {
         };
         //create new vessel position 
         const saveVessel = () => {
-            let obj = new Object();
-            let date_time = document.getElementById('date_time').value;
-            obj.vessel_id = ident.value;
-            obj.received_time_utc = date_time;
-            obj.latitude = def_lat.value;
-            obj.longitude = def_long.value;
+          let obj = new Object();
+          let date_time = document.getElementById('date_time').value;
+          obj.vessel_id = ident.value;
+          obj.received_time_utc = date_time;
+          obj.latitude = def_lat.value;
+          obj.longitude = def_long.value;
+          
+          console.log(obj.vessel_id)
 
             // serialize
           let json_vessel = JSON.stringify(obj);
@@ -106,7 +108,7 @@ export default {
             // attempt creation of new vessel position if successful toaster success else toaster failre with error
           vesselService.value.postVessel(json_vessel).then((response) => {
               stat.value = response.data.status;
-              if (stat.value == 200){
+              if (stat.value == 201){
                 severity.value = "success"
                 summary.value = "Success"
                 text.value = "Vessel added"
